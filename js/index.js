@@ -34,6 +34,7 @@ var loop = setInterval(function () {
 }, 200 + Math.E * 10);
 
 function changeBg() {
+
 	var currentTime = new Date().getHours();
 	if (6 <= currentTime&&currentTime < 9) {
 		document.body.style.backgroundImage ="url('img/landscape-morning.svg')"
@@ -50,7 +51,16 @@ function changeBg() {
 	else {
 		document.body.style.backgroundImage ="url('img/landscape-night.svg')"
 	}
+
+	var wetherParam = new URLSearchParams(window.location.search).get('wethergid');
+	if (wetherParam != null) {
+		document.getElementById('background-html').src = "https://api.wetteronline.de/wetterwidget?gid=" + wetherParam + "&modeid=CW2";
+		document.getElementById('background-html').style.transform = "scale(" + window.innerWidth/300 + ", " + window.innerHeight/200 + ")";
+		document.getElementById('background-wrapper').hidden = false;
+	}
 }
 
 changeBg();
 setInterval(function(){ changeBg(); }, 300000); //300000 means 5 min
+
+window.addEventListener("resize", function(){ changeBg(); });
