@@ -61,6 +61,26 @@ function changeBg() {
 }
 
 changeBg();
-setInterval(function(){ changeBg(); }, 300000); //300000 means 5 min
+setInterval(function(){ changeBg(); }, 300000); // 300.000 means 5 min
 
 window.addEventListener("resize", function(){ changeBg(); });
+
+
+// make cursor disappearing when idle for at least 2 sec
+var mouseTimer = null, cursorVisible = true;
+function disappearCursor() {
+	mouseTimer = null;
+	document.body.style.cursor = "none";
+	cursorVisible = false;
+}
+
+document.onmousemove = function() {
+	if (mouseTimer) {
+		window.clearTimeout(mouseTimer);
+	}
+	if (!cursorVisible) {
+		document.body.style.cursor = "default";
+		cursorVisible = true;
+	}
+	mouseTimer = window.setTimeout(disappearCursor, 2000);
+};
